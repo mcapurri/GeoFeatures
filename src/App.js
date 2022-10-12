@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Map from "./components/Map";
-import Form from "./components/Form";
+import SearchBox from "./components/SearchBox";
 
 function App() {
+  const [coords, setCoords] = useState([]);
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <Form />
-      <Map />
+      <SearchBox setCoords={setCoords} />
+      <Map coords={coords} />
     </div>
   );
 }
