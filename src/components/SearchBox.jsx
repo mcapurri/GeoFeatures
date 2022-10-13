@@ -48,7 +48,7 @@ const SearchBox = ({ setCoords }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "start",
-        borderBottom: "2px solid blue",
+        borderBottom: "1px solid blue",
         backgroundImage: " linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%)",
       }}
     >

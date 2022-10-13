@@ -5,9 +5,17 @@ import SearchBox from "./components/SearchBox";
 function App() {
   const [coords, setCoords] = useState([]);
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        backgroundImage: " linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%)",
+      }}
+    >
       <SearchBox setCoords={setCoords} />
-      <Map coords={coords} />
+      <div style={{ padding: "3% 3%" }}>
+        <Map coords={coords} />
+      </div>
     </div>
   );
 }
