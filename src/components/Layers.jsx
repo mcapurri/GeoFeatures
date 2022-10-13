@@ -81,6 +81,7 @@ const Layers = ({ center }) => {
             key={uuid()}
             data={data}
             pointToLayer={function (feature, latlng) {
+              console.log(latlng);
               return L.marker(latlng, { icon: placeholderIcon });
             }}
           />
