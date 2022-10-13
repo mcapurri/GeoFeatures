@@ -60,28 +60,9 @@ const Layers = ({ center }) => {
     setData(geoJson);
   }, [map]);
 
-  // const fetchInfos = async (feature) => {
-  //   const params = {
-  //     osm_ids: `${feature.id
-  //       .replace("node/", "N")
-  //       .replace("way/", "W")
-  //       .replace("relation/", "R")}`,
-  //     format: "json",
-  //     addressdetails: 1,
-  //     namedetails: 1,
-  //     polygon_geojson: 0,
-  //     extratags: 1,
-  //   };
-
-  //   const queryString = new URLSearchParams(params).toString();
-  //   const response = await fetch(`${NOMINATIM_BASE}${queryString}`);
-  //   const json = await response.json();
-  //   setInfos(json[0]);
-  // };
-
   useEffect(() => {
     fetchData();
-  }, [map]);
+  }, [map, fetchData]);
 
   useMapEvents({
     moveend: fetchData,
