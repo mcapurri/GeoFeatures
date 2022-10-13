@@ -131,7 +131,6 @@ const Layers = ({ center }) => {
                 const json = await response.json();
                 await setInfos(json[0]);
               });
-              console.log("respData", infos);
 
               layer.bindPopup(infos?.display_name, {
                 className: "customPopup",
