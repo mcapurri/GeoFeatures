@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import * as L from "leaflet";
 const NOMINATIM_BASE = "https://nominatim.openstreetmap.org/search?";
 
 const SearchBox = ({ setCoords }) => {
@@ -25,9 +25,9 @@ const SearchBox = ({ setCoords }) => {
     };
     const queryString = new URLSearchParams(params).toString();
 
-    const response = await axios.get(`${NOMINATIM_BASE}${queryString}`);
-    console.log(response.data[0]);
-    setCoords([response.data[0].lat, response.data[0].lon]);
+    const response = await axios(`${NOMINATIM_BASE}${queryString}`);
+    const latLng = L.latLng(response?.data[0]?.lat, response?.data[0]?.lon);
+    setCoords(latLng);
   };
 
   const handleSubmit = (e) => {

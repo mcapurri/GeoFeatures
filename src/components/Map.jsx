@@ -4,16 +4,18 @@ import { MapContainer } from "react-leaflet";
 import Layers from "./Layers";
 
 const Map = ({ coords }) => {
-  const [lat, lon] = coords;
+  const { lat, lng } = coords;
   const [center, setCenter] = useState([51.505, -0.09]);
   const [zoom, setZoom] = useState(5);
 
   useEffect(() => {
-    setCenter([lat, lon]);
-    setZoom(17);
-  }, [lat, lon]);
+    if (lat !== undefined) {
+      setCenter([lat, lng]);
+      setZoom(17);
+    }
+  }, [lat, lng]);
 
-  console.log(center);
+  console.log("center", center);
 
   return (
     <MapContainer
@@ -22,7 +24,7 @@ const Map = ({ coords }) => {
       zoomControl={true}
       style={{ height: "100vh", width: "100%", padding: 0 }}
     >
-      <Layers />
+      <Layers center={center} />
     </MapContainer>
   );
 };
