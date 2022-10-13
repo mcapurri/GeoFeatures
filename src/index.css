@@ -12,4 +12,9 @@ code {
     monospace;
 }
 
-/* @import "~leaflet/dist/leaflet.css"; */
+.customPopup .leaflet-popup-content-wrapper,
+.leaflet-popup.tip {
+  background-color: rgb(162, 216, 253);
+  font-weight: bold;
+  color: blue;
+}

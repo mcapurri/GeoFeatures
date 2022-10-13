@@ -14,7 +14,9 @@ function App() {
     >
       <SearchBox setCoords={setCoords} />
       <div style={{ padding: "3% 3%" }}>
-        <Map coords={coords} />
+        <div style={{ border: "4px blue solid" }}>
+          <Map coords={coords} />
+        </div>
       </div>
     </div>
   );

@@ -9,13 +9,14 @@ import {
 import * as L from "leaflet";
 import osmtogeojson from "osmtogeojson";
 import { v4 as uuid } from "uuid";
+import "leaflet/dist/leaflet.css";
 
-const maps = {
-  base: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-};
+const NOMINATIM_BASE = "https://nominatim.openstreetmap.org/lookup?";
+const MAPS_BASE = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 const Layers = ({ center }) => {
   const [data, setData] = useState();
+  const [infos, setInfos] = useState({});
 
   const map = useMap();
 
@@ -59,6 +60,25 @@ const Layers = ({ center }) => {
     setData(geoJson);
   }, [map]);
 
+  // const fetchInfos = async (feature) => {
+  //   const params = {
+  //     osm_ids: `${feature.id
+  //       .replace("node/", "N")
+  //       .replace("way/", "W")
+  //       .replace("relation/", "R")}`,
+  //     format: "json",
+  //     addressdetails: 1,
+  //     namedetails: 1,
+  //     polygon_geojson: 0,
+  //     extratags: 1,
+  //   };
+
+  //   const queryString = new URLSearchParams(params).toString();
+  //   const response = await fetch(`${NOMINATIM_BASE}${queryString}`);
+  //   const json = await response.json();
+  //   setInfos(json[0]);
+  // };
+
   useEffect(() => {
     fetchData();
   }, [map]);
@@ -92,11 +112,37 @@ const Layers = ({ center }) => {
 
               return marker;
             }}
+            onEachFeature={async (feature, layer) => {
+              layer.on("click", async () => {
+                const params = {
+                  osm_ids: `${feature.id
+                    .replace("node/", "N")
+                    .replace("way/", "W")
+                    .replace("relation/", "R")}`,
+                  format: "json",
+                  addressdetails: 1,
+                  namedetails: 1,
+                  polygon_geojson: 0,
+                  extratags: 1,
+                };
+
+                const queryString = new URLSearchParams(params).toString();
+                const response = await fetch(`${NOMINATIM_BASE}${queryString}`);
+                const json = await response.json();
+                await setInfos(json[0]);
+              });
+              console.log("respData", infos);
+
+              layer.bindPopup(infos?.display_name, {
+                className: "customPopup",
+                maxWidth: "300px",
+              });
+            }}
           />
         )}
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url={maps.base}
+          url={MAPS_BASE}
         />
       </LayersControl.BaseLayer>
     </LayersControl>
