@@ -2,9 +2,9 @@
 
 The app use geolocation to find the facilities of a certain area.
 The can be found:
-**By double clicking on the map, it finds the current location.
-**By zooming with mouse or control
-\*\*By giving an address in the input fields
+🔸 By double clicking on the map, it finds the current location.
+🔸 By zooming with mouse or control
+🔸 By giving an address in the input fields
 
 # Getting Started with Create React App
 
