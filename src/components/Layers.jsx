@@ -5,8 +5,6 @@ import {
   GeoJSON,
   useMap,
   useMapEvents,
-  Marker,
-  Popup,
 } from "react-leaflet";
 import * as L from "leaflet";
 import osmtogeojson from "osmtogeojson";
@@ -22,12 +20,20 @@ const Layers = ({ center }) => {
   const map = useMap();
 
   const placeholderIcon = L.icon({
-    iconUrl: "../assets/placeholder.png",
+    iconUrl: "marker.png",
     iconSize: [38, 38],
+    shadowSize: [50, 64],
+    iconAnchor: [22, 94],
+    shadowAnchor: [4, 62],
+    popupAnchor: [-3, -76],
   });
   const locationIcon = L.icon({
-    iconUrl: "../assets/location.png",
+    iconUrl: "location.png",
     iconSize: [38, 38],
+    shadowSize: [50, 64],
+    iconAnchor: [22, 94],
+    shadowAnchor: [4, 62],
+    popupAnchor: [-3, -76],
   });
 
   const fetchData = useCallback(async () => {
@@ -65,11 +71,10 @@ const Layers = ({ center }) => {
     },
     locationfound: (e) => {
       map.flyTo(e.latlng, 17);
-      return (
-        <Marker position={e.latlng} icon={locationIcon}>
-          <Popup>You are here</Popup>
-        </Marker>
-      );
+      L.marker(e.latlng, {
+        icon: locationIcon,
+        alt: "You are here",
+      }).addTo(map);
     },
   });
 
@@ -80,9 +85,12 @@ const Layers = ({ center }) => {
           <GeoJSON
             key={uuid()}
             data={data}
-            pointToLayer={function (feature, latlng) {
-              console.log(latlng);
-              return L.marker(latlng, { icon: placeholderIcon });
+            pointToLayer={(_, latlng) => {
+              const marker = L.marker(latlng, {
+                icon: placeholderIcon,
+              });
+
+              return marker;
             }}
           />
         )}
