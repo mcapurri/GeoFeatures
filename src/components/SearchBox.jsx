@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import * as L from "leaflet";
+import { OutlinedInput, Button } from "@mui/material";
 const NOMINATIM_BASE = "https://nominatim.openstreetmap.org/search?";
 
 const SearchBox = ({ setCoords }) => {
@@ -25,14 +26,13 @@ const SearchBox = ({ setCoords }) => {
     };
     const queryString = new URLSearchParams(params).toString();
 
-    const response = await axios(`${NOMINATIM_BASE}${queryString}`);
+    const response = await axios.get(`${NOMINATIM_BASE}${queryString}`);
     const latLng = L.latLng(response?.data[0]?.lat, response?.data[0]?.lon);
     setCoords(latLng);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("address", address);
     getData();
     setAddress({
       street: "",
@@ -44,11 +44,12 @@ const SearchBox = ({ setCoords }) => {
   return (
     <div
       style={{
-        height: "12vh",
+        height: "18vh",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        border: "1px solid blue",
+        justifyContent: "start",
+        borderBottom: "2px solid blue",
+        backgroundImage: " linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%)",
       }}
     >
       <form onSubmit={handleSubmit}>
@@ -62,21 +63,24 @@ const SearchBox = ({ setCoords }) => {
                 display: "flex",
                 justifyContent: "space-around",
                 padding: "20px 10px 5px 10px",
+                zIndex: "100",
               }}
             >
-              <input
+              <OutlinedInput
                 value={address.street}
-                type="text"
                 placeholder="Street"
                 name="street"
-                onChange={handleChange}
+                onChange={(e) => {
+                  setAddress({ ...address, [e.target.name]: e.target.value });
+                }}
+                style={{ background: "white" }}
               />
-              <input
+              <OutlinedInput
                 value={address.houseNumber}
-                type="text"
                 placeholder="House #"
                 name="houseNumber"
                 onChange={handleChange}
+                style={{ background: "white" }}
               />
             </div>
             <div
@@ -87,32 +91,36 @@ const SearchBox = ({ setCoords }) => {
                 padding: "5px 10px",
               }}
             >
-              <input
+              <OutlinedInput
                 value={address.postCode}
-                type="text"
                 placeholder="Post Code"
                 name="postCode"
                 onChange={handleChange}
+                style={{ background: "white" }}
               />
-              <input
+              <OutlinedInput
                 value={address.city}
-                type="text"
                 placeholder="City"
                 name="city"
                 onChange={handleChange}
+                style={{ background: "white" }}
               />
             </div>
           </div>
 
           <div>
-            <button
+            <Button
               type="submit"
+              variant="contained"
               style={{
                 margin: "10px 25px",
+                background: "white",
+                color: "blue",
+                border: "2px blue solid",
               }}
             >
               Search facilities
-            </button>
+            </Button>
           </div>
         </div>
       </form>
