@@ -110,7 +110,7 @@ const Layers = ({ center }) => {
                 const queryString = new URLSearchParams(params).toString();
                 const response = await fetch(`${NOMINATIM_BASE}${queryString}`);
                 const json = await response.json();
-                await setInfos(json[0]);
+                setInfos(json[0]);
               });
 
               layer.bindPopup(infos?.display_name, {
